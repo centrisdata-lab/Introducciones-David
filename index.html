@@ -746,13 +746,32 @@
   .bottom-nav-item .bnav-icon { font-size: 20px; }
   .bottom-nav-item.active, .bottom-nav-item:active { color: #fff; }
 
+  .fab {
+    display: none;
+    position: fixed;
+    bottom: 72px; right: 18px;
+    z-index: 300;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    color: #fff;
+    font-size: 26px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(26,79,186,0.45);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .sidebar { display: none; }
     .sidebar-overlay { display: none !important; }
-    .main-content { margin-left: 0; padding-bottom: 60px; }
+    .main-content { margin-left: 0; padding-bottom: 70px; }
     .hamburger { display: none; }
     .bottom-nav { display: flex; }
+    .fab { display: flex; }
+    #addBtn { display: none !important; }
     .page-section { padding: 16px; }
     .topbar { padding: 13px 16px; }
     .form-row { grid-template-columns: 1fr; }
@@ -803,6 +822,9 @@
 </div>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ===== FAB (solo móvil) ===== -->
+<button class="fab" id="fabBtn" onclick="openAddModal()">+</button>
 
 <!-- ===== BOTTOM NAV (solo móvil) ===== -->
 <nav class="bottom-nav" id="bottomNav">
@@ -1327,8 +1349,13 @@ async function init() {
     document.getElementById('themeLabel').textContent = 'Modo claro';
   }
   await load();
-  // Abrir submenú de Introducciones por defecto
-  toggleIntroMenu();
+  // En móvil arrancar directo en Enseñanzas
+  if (window.innerWidth <= 768) {
+    navigate('ensenanzas', null);
+    setBottomNav('ensenanzas');
+  } else {
+    toggleIntroMenu();
+  }
 }
 
 init();

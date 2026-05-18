@@ -920,17 +920,21 @@
     </div>
     <div class="form-group">
       <label class="form-label">Descripción *</label>
-      <textarea class="form-control" id="tDesc" placeholder="Escribe el testimonio completo..." rows="5"></textarea>
+      <textarea class="form-control" id="tDesc" placeholder="Escribe el testimonio completo..." rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fuente (¿dónde se consiguió?)</label>
+      <input class="form-control" type="text" id="tSource" placeholder="Ej: Libro, hermano, culto...">
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Fecha planeada para contarlo</label>
-        <input class="form-control" type="date" id="tDate">
+        <label class="form-label">Fecha en que se contó</label>
+        <input class="form-control" type="date" id="tSharedDate">
       </div>
       <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:2px">
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary);font-weight:500">
           <input type="checkbox" id="tShared" style="width:15px;height:15px;accent-color:var(--accent-emerald)">
-          Ya fue compartido
+          Se contó hoy
         </label>
       </div>
     </div>
@@ -1206,10 +1210,11 @@ function openTestimonyModal(id = null) {
   editId.testimony = id;
   const t = id ? db.testimonios.find(x => x.id === id) : null;
   document.getElementById('testimonyModalTitle').textContent = id ? 'Editar Testimonio' : 'Nuevo Testimonio';
-  document.getElementById('tTitle').value  = t ? t.title : '';
-  document.getElementById('tDesc').value   = t ? t.desc  : '';
-  document.getElementById('tDate').value   = t ? (t.plannedDate || '') : '';
-  document.getElementById('tShared').checked = t ? t.shared : false;
+  document.getElementById('tTitle').value      = t ? t.title : '';
+  document.getElementById('tDesc').value       = t ? t.desc  : '';
+  document.getElementById('tSource').value     = t ? (t.source || '') : '';
+  document.getElementById('tSharedDate').value = t ? (t.sharedDate || '') : '';
+  document.getElementById('tShared').checked   = t ? t.shared : false;
   openModal('testimonyModal');
 }
 
@@ -1218,15 +1223,17 @@ function saveTestimony() {
   const desc  = document.getElementById('tDesc').value.trim();
   if (!title || !desc) { toast('Título y descripción son requeridos', '⚠️'); return; }
 
-  const shared = document.getElementById('tShared').checked;
-  const existing = editId.testimony ? db.testimonios.find(x => x.id === editId.testimony) : null;
+  const sharedCheck = document.getElementById('tShared').checked;
+  const sharedDate  = sharedCheck ? today() : (document.getElementById('tSharedDate').value || null);
+  const shared      = sharedCheck || !!sharedDate;
+  const existing    = editId.testimony ? db.testimonios.find(x => x.id === editId.testimony) : null;
   const t = {
-    id:          existing ? existing.id : genId(),
+    id:         existing ? existing.id : genId(),
     title, desc,
-    plannedDate: document.getElementById('tDate').value,
+    source:     document.getElementById('tSource').value.trim(),
     shared,
-    sharedDate:  shared ? (existing?.sharedDate || today()) : null,
-    createdAt:   existing ? existing.createdAt : today()
+    sharedDate,
+    createdAt:  existing ? existing.createdAt : today()
   };
 
   if (editId.testimony) {
@@ -1249,7 +1256,7 @@ function toggleShared(id) {
   t.sharedDate = t.shared ? today() : null;
   save();
   renderTestimonios();
-  toast(t.shared ? 'Marcado como compartido' : 'Marcado como pendiente', t.shared ? '✅' : '⏳');
+  toast(t.shared ? 'Marcado como contado hoy' : 'Marcado como pendiente', t.shared ? '✅' : '⏳');
 }
 
 function deleteTestimony(id) {
@@ -1287,10 +1294,10 @@ function renderTestimonios() {
         </button>
       </div>
       <div class="testimony-desc">${t.desc}</div>
+      ${t.source ? `<div class="date-label" style="margin-bottom:8px">📌 Fuente: ${t.source}</div>` : ''}
       <div class="testimony-footer">
         <div class="testimony-dates">
-          ${t.plannedDate ? `<div class="date-label">📅 Planeado: ${fmtDate(t.plannedDate)}</div>` : ''}
-          ${t.sharedDate  ? `<div class="date-label" style="color:#1a8a5a">✅ Compartido: ${fmtDate(t.sharedDate)}</div>` : ''}
+          ${t.sharedDate ? `<div class="date-label" style="color:#1a8a5a">✅ Contado: ${fmtDate(t.sharedDate)}</div>` : ''}
         </div>
         <div class="testimony-actions">
           <button class="btn btn-secondary btn-sm btn-icon" onclick="openTestimonyModal('${t.id}')">✏️</button>

@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducciones & Testimonios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #f4f6fb;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0f2472;       /* azul marino oscuro — navbar idmji */
+    --text-primary: #0d1b4b;
+    --text-secondary: #4a5568;
+    --text-muted: #9ca3af;
+    --accent-primary: #1a4fba;   /* azul medio — botones idmji */
+    --accent-secondary: #2563c0;
+    --accent-gold: #b8972a;      /* dorado — tarjeta central idmji */
+    --accent-rose: #c0392b;      /* rojo — botón YouTube idmji */
+    --accent-emerald: #1a8a5a;
+    --accent-orange: #e07820;    /* naranja — borde tarjeta idmji */
+    --border: #dde3f0;
+    --shadow-sm: 0 1px 4px rgba(15,36,114,0.07);
+    --shadow-md: 0 4px 16px rgba(15,36,114,0.13);
+    --shadow-lg: 0 8px 32px rgba(15,36,114,0.18);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  [data-theme="dark"] {
+    --bg-primary: #07112e;
+    --bg-secondary: #0d1b4b;
+    --bg-card: #112060;
+    --bg-sidebar: #070e28;
+    --text-primary: #e8eeff;
+    --text-secondary: #93aee8;
+    --text-muted: #5a6fa8;
+    --accent-primary: #3a6fdd;
+    --accent-secondary: #5588ff;
+    --border: #1e2f6a;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.35);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.45);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    transition: var(--transition);
+    overflow-x: hidden;
+  }
+
+  /* ===== LAYOUT ===== */
+  .app-layout { display: flex; min-height: 100vh; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: 250px;
+    background: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    transition: var(--transition);
+  }
+
+  .sidebar-logo {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 14px rgba(26,79,186,0.45);
+  }
+
+  .logo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+
+  .logo-subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 3px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 14px 10px;
+    overflow-y: auto;
+  }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: rgba(255,255,255,0.28);
+    text-transform: uppercase;
+    padding: 10px 12px 5px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 2px;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.88);
+  }
+
+  .nav-item.active {
+    background: linear-gradient(135deg, rgba(37,99,192,0.38), rgba(26,79,186,0.22));
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(37,99,192,0.35);
+  }
+
+  .nav-item.sub {
+    padding-left: 36px;
+    font-size: 13px;
+  }
+
+  .nav-icon { font-size: 17px; width: 22px; text-align: center; }
+
+  .nav-parent {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    font-weight: 600;
+    user-select: none;
+    margin-bottom: 2px;
+  }
+
+  .nav-parent:hover { background: rgba(255,255,255,0.05); }
+
+  .nav-children {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .nav-children.open { max-height: 200px; }
+
+  .nav-arrow {
+    margin-left: auto;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    transition: transform 0.25s;
+  }
+
+  .nav-parent.open .nav-arrow { transform: rotate(90deg); }
+
+  .sidebar-footer {
+    padding: 14px 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 13px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    transition: var(--transition);
+    background: rgba(255,255,255,0.04);
+    border: none;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .theme-toggle:hover {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.88);
+  }
+
+  /* ===== MAIN ===== */
+  .main-content {
+    margin-left: 250px;
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 15px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .topbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 21px; height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  /* ===== PAGE SECTIONS ===== */
+  .page-section {
+    display: none;
+    padding: 26px;
+    flex: 1;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .page-section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #1a4fba, #2563c0);
+    color: white;
+    box-shadow: 0 4px 12px rgba(26,79,186,0.32);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(26,79,186,0.45);
+  }
+
+  .btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { border-color: var(--accent-primary); }
+
+  .btn-danger {
+    background: rgba(192,57,43,0.09);
+    color: #c0392b;
+    border: 1px solid rgba(192,57,43,0.18);
+  }
+
+  .btn-danger:hover { background: #c0392b; color: white; }
+
+  .btn-sm { padding: 7px 13px; font-size: 12px; }
+  .btn-icon { padding: 7px; }
+
+  /* ===== FILTER BAR ===== */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrapper { position: relative; flex: 1; min-width: 200px; }
+
+  .search-icon {
+    position: absolute;
+    left: 11px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 15px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 14px 10px 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+  }
+
+  .search-input:focus {
+    border-color: #1a4fba;
+    box-shadow: 0 0 0 3px rgba(26,79,186,0.1);
+  }
+
+  .filter-btn {
+    padding: 9px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: #1a4fba;
+    color: white;
+    border-color: #1a4fba;
+  }
+
+  /* ===== FORMS ===== */
+  .form-group { margin-bottom: 15px; }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: var(--transition);
+    outline: none;
+  }
+
+  .form-control:focus {
+    border-color: #1a4fba;
+    box-shadow: 0 0 0 3px rgba(26,79,186,0.1);
+    background: var(--bg-card);
+  }
+
+  .form-control::placeholder { color: var(--text-muted); }
+  textarea.form-control { resize: vertical; min-height: 95px; line-height: 1.6; }
+  select.form-control { cursor: pointer; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.48);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    transform: translateY(18px) scale(0.97);
+    transition: transform 0.26s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .modal-close {
+    width: 30px; height: 30px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: var(--transition);
+  }
+
+  .modal-close:hover { background: #c0392b; color: white; border-color: #c0392b; }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== VERSE CARDS ===== */
+  .items-list { display: flex; flex-direction: column; gap: 11px; }
+
+  .verse-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .verse-card:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(108,99,255,0.18);
+  }
+
+  .verse-card.read  { border-left: 4px solid #1a8a5a; }
+  .verse-card.unread { border-left: 4px solid #b8972a; }
+
+  .verse-check {
+    width: 21px; height: 21px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    transition: var(--transition);
+    margin-top: 2px;
+  }
+
+  .verse-check.checked { background: #1a8a5a; border-color: #1a8a5a; color: white; }
+
+  .verse-content { flex: 1; min-width: 0; }
+
+  .verse-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+
+  .verse-ref {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a4fba;
+    margin-bottom: 5px;
+  }
+
+  .verse-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 7px;
+    line-height: 1.5;
+  }
+
+  .verse-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tag-read     { background: rgba(26,138,90,0.11); color: #1a8a5a; }
+  .tag-pending  { background: rgba(184,151,42,0.13); color: #b8972a; }
+  .tag-date     { font-size: 11px; color: var(--text-muted); }
+
+  .verse-actions { display: flex; gap: 5px; flex-shrink: 0; }
+
+  /* ===== TESTIMONY CARDS ===== */
+  .testimony-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+  }
+
+  .testimony-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimony-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .testimony-card.pending::before  { background: linear-gradient(90deg, #1a4fba, #2563c0); }
+  .testimony-card.shared::before   { background: linear-gradient(90deg, #1a8a5a, #28b57a); }
+
+  .testimony-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+  .testimony-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  .testimony-title { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.35; }
+
+  .shared-toggle {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    background: transparent;
+  }
+
+  .shared-toggle.pending { background: rgba(184,151,42,0.12); }
+  .shared-toggle.shared  { background: rgba(26,138,90,0.12); }
+
+  .testimony-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .testimony-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .testimony-dates { display: flex; flex-direction: column; gap: 2px; }
+  .date-label { font-size: 11px; color: var(--text-muted); }
+  .testimony-actions { display: flex; gap: 5px; }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state {
+    text-align: center;
+    padding: 55px 20px;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+  }
+
+  .empty-state-icon { font-size: 50px; margin-bottom: 14px; opacity: 0.45; }
+  .empty-state h3 { font-size: 17px; font-weight: 600; color: var(--text-secondary); margin-bottom: 7px; }
+  .empty-state p { font-size: 13px; line-height: 1.6; }
+
+  /* ===== TOAST ===== */
+  .toast-container {
+    position: fixed;
+    bottom: 22px; right: 22px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .toast {
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    padding: 13px 17px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transform: translateX(110px);
+    opacity: 0;
+    transition: all 0.32s cubic-bezier(0.4,0,0.2,1);
+    max-width: 300px;
+  }
+
+  .toast.show { transform: translateX(0); opacity: 1; }
+
+  /* ===== SIDEBAR OVERLAY ===== */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.48);
+    z-index: 99;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+    .sidebar-overlay.open { display: block; }
+    .main-content { margin-left: 0; }
+    .hamburger { display: flex; }
+    .page-section { padding: 16px; }
+    .topbar { padding: 13px 16px; }
+    .form-row { grid-template-columns: 1fr; }
+    .testimony-grid { grid-template-columns: 1fr; }
+    .filter-bar { flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-title" style="font-size:18px;margin-top:4px">David</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- Introducciones con submenú -->
+    <div class="nav-parent" id="navIntro" onclick="toggleIntroMenu()">
+      <span class="nav-icon">📖</span>
+      <span>Introducciones</span>
+      <span class="nav-arrow" id="introArrow">▶</span>
+    </div>
+    <div class="nav-children" id="introChildren">
+      <div class="nav-item sub" onclick="navigate('ensenanzas', this)">
+        <span class="nav-icon">📚</span>
+        <span>De Enseñanzas</span>
+      </div>
+      <div class="nav-item sub" onclick="navigate('alabanzas', this)">
+        <span class="nav-icon">🎵</span>
+        <span>De Alabanzas</span>
+      </div>
+    </div>
+
+    <!-- Testimonios -->
+    <div class="nav-item" style="margin-top:6px" onclick="navigate('testimonios', this)">
+      <span class="nav-icon">🕊️</span>
+      <span>Testimonios</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span id="themeIcon">🌙</span>
+      <span id="themeLabel">Modo oscuro</span>
+    </button>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ===== MAIN ===== -->
+<div class="main-content">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="topbar-title" id="topbarTitle">Selecciona una sección</span>
+    </div>
+    <button class="btn btn-primary btn-sm" id="addBtn" onclick="openAddModal()" style="display:none">
+      + <span id="addBtnLabel">Agregar</span>
+    </button>
+  </div>
+
+  <!-- Bienvenida -->
+  <section class="page-section active" id="section-welcome">
+    <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px;text-align:center;padding:20px">
+      <h1 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--text-primary)">Bienvenido, David</h1>
+      <p style="color:var(--text-secondary);font-size:15px;max-width:380px;line-height:1.6">Selecciona una sección en el menú lateral para comenzar a registrar tus introducciones o testimonios.</p>
+    </div>
+  </section>
+
+  <!-- Enseñanzas -->
+  <section class="page-section" id="section-ensenanzas">
+    <div class="section-header">
+      <h2 class="section-title">📚 Introducciones de Enseñanzas</h2>
+    </div>
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" placeholder="Buscar verso, referencia o nota..." id="searchEnsenanzas" oninput="renderVerses('ensenanzas')">
+      </div>
+      <button class="filter-btn active" onclick="setFilter('ensenanzas','all',this)">Todos</button>
+      <button class="filter-btn" onclick="setFilter('ensenanzas','unread',this)">Pendientes</button>
+      <button class="filter-btn" onclick="setFilter('ensenanzas','read',this)">Leídos</button>
+    </div>
+    <div class="items-list" id="listEnsenanzas"></div>
+  </section>
+
+  <!-- Alabanzas -->
+  <section class="page-section" id="section-alabanzas">
+    <div class="section-header">
+      <h2 class="section-title">🎵 Introducciones de Alabanzas</h2>
+    </div>
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" placeholder="Buscar verso, referencia o nota..." id="searchAlabanzas" oninput="renderVerses('alabanzas')">
+      </div>
+      <button class="filter-btn active" onclick="setFilter('alabanzas','all',this)">Todos</button>
+      <button class="filter-btn" onclick="setFilter('alabanzas','unread',this)">Pendientes</button>
+      <button class="filter-btn" onclick="setFilter('alabanzas','read',this)">Leídos</button>
+    </div>
+    <div class="items-list" id="listAlabanzas"></div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="page-section" id="section-testimonios">
+    <div class="section-header">
+      <h2 class="section-title">🕊️ Testimonios</h2>
+    </div>
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" placeholder="Buscar testimonio..." id="searchTestimonios" oninput="renderTestimonios()">
+      </div>
+      <button class="filter-btn active" onclick="setFilter('testimonios','all',this)">Todos</button>
+      <button class="filter-btn" onclick="setFilter('testimonios','pending',this)">Por contar</button>
+      <button class="filter-btn" onclick="setFilter('testimonios','shared',this)">Compartidos</button>
+    </div>
+    <div class="testimony-grid" id="listTestimonios"></div>
+  </section>
+</div>
+
+<!-- ===== MODAL VERSO ===== -->
+<div class="modal-overlay" id="verseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="verseModalTitle">Nuevo Verso</h3>
+      <button class="modal-close" onclick="closeModal('verseModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Texto del verso *</label>
+      <textarea class="form-control" id="vText" placeholder="Escribe el verso bíblico..." rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Referencia bíblica *</label>
+      <input class="form-control" type="text" id="vRef" placeholder="Ej: Juan 3:16">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nota o tema relacionado</label>
+      <textarea class="form-control" id="vNote" placeholder="Contexto, tema o notas personales..." rows="2"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('verseModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveVerse()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL TESTIMONIO ===== -->
+<div class="modal-overlay" id="testimonyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="testimonyModalTitle">Nuevo Testimonio</h3>
+      <button class="modal-close" onclick="closeModal('testimonyModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Título *</label>
+      <input class="form-control" type="text" id="tTitle" placeholder="Título del testimonio...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descripción *</label>
+      <textarea class="form-control" id="tDesc" placeholder="Escribe el testimonio completo..." rows="5"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Fecha planeada para contarlo</label>
+        <input class="form-control" type="date" id="tDate">
+      </div>
+      <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:2px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary);font-weight:500">
+          <input type="checkbox" id="tShared" style="width:15px;height:15px;accent-color:var(--accent-emerald)">
+          Ya fue compartido
+        </label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('testimonyModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveTestimony()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ===== DATA =====
+let db = { ensenanzas: [], alabanzas: [], testimonios: [] };
+let editId = { verse: null, testimony: null };
+let activeSection = 'welcome';
+let filters = { ensenanzas: 'all', alabanzas: 'all', testimonios: 'all' };
+
+function load() {
+  const s = localStorage.getItem('espiritual_v2');
+  if (s) db = JSON.parse(s);
+}
+
+function save() {
+  localStorage.setItem('espiritual_v2', JSON.stringify(db));
+}
+
+function genId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+// ===== NAVIGATION =====
+let introOpen = false;
+
+function toggleIntroMenu() {
+  introOpen = !introOpen;
+  document.getElementById('introChildren').classList.toggle('open', introOpen);
+  document.getElementById('navIntro').classList.toggle('open', introOpen);
+}
+
+function navigate(section, el) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + section).classList.add('active');
+  if (el) el.classList.add('active');
+  activeSection = section;
+
+  const titles = {
+    ensenanzas: '📚 Introducciones de Enseñanzas',
+    alabanzas:  '🎵 Introducciones de Alabanzas',
+    testimonios: '🕊️ Testimonios'
+  };
+  const labels = {
+    ensenanzas: 'Nuevo Verso',
+    alabanzas:  'Nuevo Verso',
+    testimonios: 'Nuevo Testimonio'
+  };
+
+  document.getElementById('topbarTitle').textContent = titles[section];
+  document.getElementById('addBtnLabel').textContent = labels[section];
+  document.getElementById('addBtn').style.display = 'inline-flex';
+
+  if (section === 'ensenanzas') renderVerses('ensenanzas');
+  if (section === 'alabanzas')  renderVerses('alabanzas');
+  if (section === 'testimonios') renderTestimonios();
+
+  closeSidebar();
+}
+
+// ===== THEME =====
+function toggleTheme() {
+  const dark = document.body.getAttribute('data-theme') === 'dark';
+  document.body.setAttribute('data-theme', dark ? '' : 'dark');
+  document.getElementById('themeIcon').textContent  = dark ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = dark ? 'Modo oscuro' : 'Modo claro';
+  localStorage.setItem('theme', dark ? 'light' : 'dark');
+}
+
+// ===== SIDEBAR =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// ===== MODAL =====
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== TOAST =====
+function toast(msg, icon = '✅') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<span>${icon}</span>${msg}`;
+  c.appendChild(t);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 350); }, 3000);
+}
+
+// ===== ADD MODAL ROUTER =====
+function openAddModal() {
+  if (activeSection === 'ensenanzas' || activeSection === 'alabanzas') openVerseModal();
+  else if (activeSection === 'testimonios') openTestimonyModal();
+}
+
+// ===== FILTERS =====
+function setFilter(section, value, el) {
+  filters[section] = value;
+  const bar = el.closest('.filter-bar');
+  bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  if (section === 'testimonios') renderTestimonios();
+  else renderVerses(section);
+}
+
+// ===== VERSES =====
+function openVerseModal(id = null) {
+  editId.verse = id;
+  const v = id ? db[activeSection].find(x => x.id === id) : null;
+  document.getElementById('verseModalTitle').textContent = id ? 'Editar Verso' : 'Nuevo Verso';
+  document.getElementById('vText').value = v ? v.text : '';
+  document.getElementById('vRef').value  = v ? v.ref  : '';
+  document.getElementById('vNote').value = v ? v.note : '';
+  openModal('verseModal');
+}
+
+function saveVerse() {
+  const text = document.getElementById('vText').value.trim();
+  const ref  = document.getElementById('vRef').value.trim();
+  if (!text || !ref) { toast('El texto y la referencia son requeridos', '⚠️'); return; }
+
+  const existing = editId.verse ? db[activeSection].find(x => x.id === editId.verse) : null;
+  const verse = {
+    id:        existing ? existing.id : genId(),
+    text, ref,
+    note:      document.getElementById('vNote').value.trim(),
+    read:      existing ? existing.read : false,
+    readDate:  existing ? existing.readDate : null,
+    createdAt: existing ? existing.createdAt : today()
+  };
+
+  if (editId.verse) {
+    const idx = db[activeSection].findIndex(x => x.id === editId.verse);
+    db[activeSection][idx] = verse;
+    toast('Verso actualizado');
+  } else {
+    db[activeSection].unshift(verse);
+    toast('Verso guardado');
+  }
+
+  save();
+  closeModal('verseModal');
+  renderVerses(activeSection);
+}
+
+function toggleRead(section, id) {
+  const v = db[section].find(x => x.id === id);
+  v.read = !v.read;
+  v.readDate = v.read ? today() : null;
+  save();
+  renderVerses(section);
+  toast(v.read ? 'Marcado como leído' : 'Marcado como pendiente', v.read ? '📖' : '⏳');
+}
+
+function deleteVerse(section, id) {
+  if (!confirm('¿Eliminar este verso?')) return;
+  db[section] = db[section].filter(x => x.id !== id);
+  save();
+  renderVerses(section);
+  toast('Verso eliminado', '🗑️');
+}
+
+function renderVerses(section) {
+  const search = (document.getElementById('search' + section.charAt(0).toUpperCase() + section.slice(1))?.value || '').toLowerCase();
+  const f = filters[section];
+
+  let list = db[section].filter(v => {
+    const ms = !search || v.text.toLowerCase().includes(search) || v.ref.toLowerCase().includes(search) || (v.note||'').toLowerCase().includes(search);
+    const mf = f === 'all' ? true : f === 'read' ? v.read : !v.read;
+    return ms && mf;
+  });
+
+  const el = document.getElementById('list' + section.charAt(0).toUpperCase() + section.slice(1));
+  if (!el) return;
+
+  if (list.length === 0) {
+    const label = section === 'ensenanzas' ? 'enseñanzas' : 'alabanzas';
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📖</div><h3>Sin versos aquí</h3><p>Agrega tu primer verso para introducciones de ${label}.</p></div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(v => `
+    <div class="verse-card ${v.read ? 'read' : 'unread'}">
+      <div class="verse-check ${v.read ? 'checked' : ''}" onclick="toggleRead('${section}','${v.id}')" title="${v.read ? 'Marcar como pendiente' : 'Marcar como leído'}">
+        ${v.read ? '✓' : ''}
+      </div>
+      <div class="verse-content">
+        <div class="verse-text">"${v.text}"</div>
+        <div class="verse-ref">${v.ref}</div>
+        ${v.note ? `<div class="verse-note">📝 ${v.note}</div>` : ''}
+        <div class="verse-meta">
+          <span class="tag ${v.read ? 'tag-read' : 'tag-pending'}">${v.read ? '✓ Leído' : '⏳ Pendiente'}</span>
+          ${v.readDate ? `<span class="tag-date">Leído: ${fmtDate(v.readDate)}</span>` : ''}
+        </div>
+      </div>
+      <div class="verse-actions">
+        <button class="btn btn-secondary btn-sm btn-icon" onclick="openVerseModal('${v.id}')" title="Editar">✏️</button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteVerse('${section}','${v.id}')" title="Eliminar">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+// ===== TESTIMONIOS =====
+function openTestimonyModal(id = null) {
+  editId.testimony = id;
+  const t = id ? db.testimonios.find(x => x.id === id) : null;
+  document.getElementById('testimonyModalTitle').textContent = id ? 'Editar Testimonio' : 'Nuevo Testimonio';
+  document.getElementById('tTitle').value  = t ? t.title : '';
+  document.getElementById('tDesc').value   = t ? t.desc  : '';
+  document.getElementById('tDate').value   = t ? (t.plannedDate || '') : '';
+  document.getElementById('tShared').checked = t ? t.shared : false;
+  openModal('testimonyModal');
+}
+
+function saveTestimony() {
+  const title = document.getElementById('tTitle').value.trim();
+  const desc  = document.getElementById('tDesc').value.trim();
+  if (!title || !desc) { toast('Título y descripción son requeridos', '⚠️'); return; }
+
+  const shared = document.getElementById('tShared').checked;
+  const existing = editId.testimony ? db.testimonios.find(x => x.id === editId.testimony) : null;
+  const t = {
+    id:          existing ? existing.id : genId(),
+    title, desc,
+    plannedDate: document.getElementById('tDate').value,
+    shared,
+    sharedDate:  shared ? (existing?.sharedDate || today()) : null,
+    createdAt:   existing ? existing.createdAt : today()
+  };
+
+  if (editId.testimony) {
+    const idx = db.testimonios.findIndex(x => x.id === editId.testimony);
+    db.testimonios[idx] = t;
+    toast('Testimonio actualizado');
+  } else {
+    db.testimonios.unshift(t);
+    toast('Testimonio guardado 🕊️');
+  }
+
+  save();
+  closeModal('testimonyModal');
+  renderTestimonios();
+}
+
+function toggleShared(id) {
+  const t = db.testimonios.find(x => x.id === id);
+  t.shared = !t.shared;
+  t.sharedDate = t.shared ? today() : null;
+  save();
+  renderTestimonios();
+  toast(t.shared ? 'Marcado como compartido' : 'Marcado como pendiente', t.shared ? '✅' : '⏳');
+}
+
+function deleteTestimony(id) {
+  if (!confirm('¿Eliminar este testimonio?')) return;
+  db.testimonios = db.testimonios.filter(x => x.id !== id);
+  save();
+  renderTestimonios();
+  toast('Testimonio eliminado', '🗑️');
+}
+
+function renderTestimonios() {
+  const search = (document.getElementById('searchTestimonios')?.value || '').toLowerCase();
+  const f = filters.testimonios;
+
+  let list = db.testimonios.filter(t => {
+    const ms = !search || t.title.toLowerCase().includes(search) || t.desc.toLowerCase().includes(search);
+    const mf = f === 'all' ? true : f === 'shared' ? t.shared : !t.shared;
+    return ms && mf;
+  });
+
+  const el = document.getElementById('listTestimonios');
+  if (!el) return;
+
+  if (list.length === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🕊️</div><h3>Sin testimonios</h3><p>Agrega tu primer testimonio para recordarlo cuando lo necesites.</p></div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(t => `
+    <div class="testimony-card ${t.shared ? 'shared' : 'pending'}">
+      <div class="testimony-header">
+        <div class="testimony-title">${t.title}</div>
+        <button class="shared-toggle ${t.shared ? 'shared' : 'pending'}" onclick="toggleShared('${t.id}')" title="${t.shared ? 'Marcar como pendiente' : 'Marcar como compartido'}">
+          ${t.shared ? '✅' : '⏳'}
+        </button>
+      </div>
+      <div class="testimony-desc">${t.desc}</div>
+      <div class="testimony-footer">
+        <div class="testimony-dates">
+          ${t.plannedDate ? `<div class="date-label">📅 Planeado: ${fmtDate(t.plannedDate)}</div>` : ''}
+          ${t.sharedDate  ? `<div class="date-label" style="color:#1a8a5a">✅ Compartido: ${fmtDate(t.sharedDate)}</div>` : ''}
+        </div>
+        <div class="testimony-actions">
+          <button class="btn btn-secondary btn-sm btn-icon" onclick="openTestimonyModal('${t.id}')">✏️</button>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteTestimony('${t.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+});
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+});
+
+// ===== INIT =====
+function init() {
+  const t = localStorage.getItem('theme');
+  if (t === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    document.getElementById('themeIcon').textContent  = '☀️';
+    document.getElementById('themeLabel').textContent = 'Modo claro';
+  }
+  load();
+  // Abrir submenú de Introducciones por defecto
+  toggleIntroMenu();
+}
+
+init();
+</script>
+</body>
+</html>

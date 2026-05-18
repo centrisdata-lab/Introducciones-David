@@ -789,26 +789,12 @@
   </div>
 
   <nav class="sidebar-nav">
-    <!-- Introducciones con submenú -->
-    <div class="nav-parent" id="navIntro" onclick="toggleIntroMenu()">
-      <span class="nav-icon">📖</span>
+    <div class="nav-item" onclick="navigate('introducciones', this)">
+      <span class="nav-icon">📄</span>
       <span>Introducciones</span>
-      <span class="nav-arrow" id="introArrow">▶</span>
     </div>
-    <div class="nav-children" id="introChildren">
-      <div class="nav-item sub" onclick="navigate('ensenanzas', this)">
-        <span class="nav-icon">📚</span>
-        <span>De Enseñanzas</span>
-      </div>
-      <div class="nav-item sub" onclick="navigate('alabanzas', this)">
-        <span class="nav-icon">🎵</span>
-        <span>De Alabanzas</span>
-      </div>
-    </div>
-
-    <!-- Testimonios -->
     <div class="nav-item" style="margin-top:6px" onclick="navigate('testimonios', this)">
-      <span class="nav-icon">🕊️</span>
+      <span class="nav-icon">📄</span>
       <span>Testimonios</span>
     </div>
   </nav>
@@ -828,16 +814,12 @@
 
 <!-- ===== BOTTOM NAV (solo móvil) ===== -->
 <nav class="bottom-nav" id="bottomNav">
-  <button class="bottom-nav-item" id="bnav-ensenanzas" onclick="navigate('ensenanzas', this); setBottomNav('ensenanzas')">
-    <span class="bnav-icon">📚</span>
-    <span>Enseñanzas</span>
+  <button class="bottom-nav-item" id="bnav-introducciones" onclick="navigate('introducciones', null); setBottomNav('introducciones')">
+    <span class="bnav-icon">📄</span>
+    <span>Introducciones</span>
   </button>
-  <button class="bottom-nav-item" id="bnav-alabanzas" onclick="navigate('alabanzas', this); setBottomNav('alabanzas')">
-    <span class="bnav-icon">🎵</span>
-    <span>Alabanzas</span>
-  </button>
-  <button class="bottom-nav-item" id="bnav-testimonios" onclick="navigate('testimonios', this); setBottomNav('testimonios')">
-    <span class="bnav-icon">🕊️</span>
+  <button class="bottom-nav-item" id="bnav-testimonios" onclick="navigate('testimonios', null); setBottomNav('testimonios')">
+    <span class="bnav-icon">📄</span>
     <span>Testimonios</span>
   </button>
 </nav>
@@ -856,52 +838,32 @@
     </button>
   </div>
 
-  <!-- Bienvenida -->
-  <section class="page-section active" id="section-welcome">
-    <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px;text-align:center;padding:20px">
-      <h1 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--text-primary)">Bienvenido, David</h1>
-      <p style="color:var(--text-secondary);font-size:15px;max-width:380px;line-height:1.6">Selecciona una sección en el menú lateral para comenzar a registrar tus introducciones o testimonios.</p>
-    </div>
-  </section>
-
-  <!-- Enseñanzas -->
-  <section class="page-section" id="section-ensenanzas">
+  <!-- Introducciones (unificada) -->
+  <section class="page-section active" id="section-introducciones">
     <div class="section-header">
-      <h2 class="section-title">📚 Introducciones de Enseñanzas</h2>
+      <h2 class="section-title">📄 Introducciones</h2>
+    </div>
+    <!-- Selector de tipo -->
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <button class="filter-btn active" id="tabEnsenanzas" onclick="switchIntroTab('ensenanzas')">📋 Enseñanzas</button>
+      <button class="filter-btn" id="tabAlabanzas" onclick="switchIntroTab('alabanzas')">📋 Alabanzas</button>
     </div>
     <div class="filter-bar">
       <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input class="search-input" type="text" placeholder="Buscar verso, referencia o nota..." id="searchEnsenanzas" oninput="renderVerses('ensenanzas')">
+        <input class="search-input" type="text" placeholder="Buscar verso, referencia o nota..." id="searchIntro" oninput="renderIntroActivo()">
       </div>
-      <button class="filter-btn active" onclick="setFilter('ensenanzas','all',this)">Todos</button>
-      <button class="filter-btn" onclick="setFilter('ensenanzas','unread',this)">Pendientes</button>
-      <button class="filter-btn" onclick="setFilter('ensenanzas','read',this)">Leídos</button>
+      <button class="filter-btn active" id="ifAll" onclick="setIntroFilter('all',this)">Todos</button>
+      <button class="filter-btn" id="ifUnread" onclick="setIntroFilter('unread',this)">Pendientes</button>
+      <button class="filter-btn" id="ifRead" onclick="setIntroFilter('read',this)">Leídos</button>
     </div>
-    <div class="items-list" id="listEnsenanzas"></div>
-  </section>
-
-  <!-- Alabanzas -->
-  <section class="page-section" id="section-alabanzas">
-    <div class="section-header">
-      <h2 class="section-title">🎵 Introducciones de Alabanzas</h2>
-    </div>
-    <div class="filter-bar">
-      <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" type="text" placeholder="Buscar verso, referencia o nota..." id="searchAlabanzas" oninput="renderVerses('alabanzas')">
-      </div>
-      <button class="filter-btn active" onclick="setFilter('alabanzas','all',this)">Todos</button>
-      <button class="filter-btn" onclick="setFilter('alabanzas','unread',this)">Pendientes</button>
-      <button class="filter-btn" onclick="setFilter('alabanzas','read',this)">Leídos</button>
-    </div>
-    <div class="items-list" id="listAlabanzas"></div>
+    <div class="items-list" id="listIntro"></div>
   </section>
 
   <!-- Testimonios -->
   <section class="page-section" id="section-testimonios">
     <div class="section-header">
-      <h2 class="section-title">🕊️ Testimonios</h2>
+      <h2 class="section-title">📄 Testimonios</h2>
     </div>
     <div class="filter-bar">
       <div class="search-wrapper">
@@ -922,6 +884,13 @@
     <div class="modal-header">
       <h3 class="modal-title" id="verseModalTitle">Nuevo Verso</h3>
       <button class="modal-close" onclick="closeModal('verseModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tipo *</label>
+      <select class="form-control" id="vTipo">
+        <option value="ensenanzas">Enseñanza</option>
+        <option value="alabanzas">Alabanza</option>
+      </select>
     </div>
     <div class="form-group">
       <label class="form-label">Texto del verso *</label>
@@ -1037,13 +1006,10 @@ function fmtDate(d) {
 }
 
 // ===== NAVIGATION =====
-let introOpen = false;
+let introTab = 'ensenanzas';
+let introFilter = 'all';
 
-function toggleIntroMenu() {
-  introOpen = !introOpen;
-  document.getElementById('introChildren').classList.toggle('open', introOpen);
-  document.getElementById('navIntro').classList.toggle('open', introOpen);
-}
+function toggleIntroMenu() {}
 
 function navigate(section, el) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -1052,26 +1018,46 @@ function navigate(section, el) {
   if (el) el.classList.add('active');
   activeSection = section;
 
-  const titles = {
-    ensenanzas: '📚 Introducciones de Enseñanzas',
-    alabanzas:  '🎵 Introducciones de Alabanzas',
-    testimonios: '🕊️ Testimonios'
-  };
-  const labels = {
-    ensenanzas: 'Nuevo Verso',
-    alabanzas:  'Nuevo Verso',
-    testimonios: 'Nuevo Testimonio'
-  };
+  const titles = { introducciones: '📄 Introducciones', testimonios: '📄 Testimonios' };
+  const labels  = { introducciones: 'Nueva Introducción', testimonios: 'Nuevo Testimonio' };
 
-  document.getElementById('topbarTitle').textContent = titles[section];
-  document.getElementById('addBtnLabel').textContent = labels[section];
+  document.getElementById('topbarTitle').textContent = titles[section] || '';
+  document.getElementById('addBtnLabel').textContent = labels[section] || '';
   document.getElementById('addBtn').style.display = 'inline-flex';
 
-  if (section === 'ensenanzas') renderVerses('ensenanzas');
-  if (section === 'alabanzas')  renderVerses('alabanzas');
+  if (section === 'introducciones') renderIntroActivo();
   if (section === 'testimonios') renderTestimonios();
 
   closeSidebar();
+}
+
+function switchIntroTab(tab) {
+  introTab = tab;
+  document.getElementById('tabEnsenanzas').classList.toggle('active', tab === 'ensenanzas');
+  document.getElementById('tabAlabanzas').classList.toggle('active', tab === 'alabanzas');
+  introFilter = 'all';
+  ['ifAll','ifUnread','ifRead'].forEach((id,i) => document.getElementById(id).classList.toggle('active', i===0));
+  renderIntroActivo();
+}
+
+function setIntroFilter(value, el) {
+  introFilter = value;
+  el.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderIntroActivo();
+}
+
+function renderIntroActivo() {
+  const search = (document.getElementById('searchIntro')?.value || '').toLowerCase();
+  let list = db[introTab] || [];
+  if (introFilter === 'unread') list = list.filter(v => !v.read);
+  if (introFilter === 'read')   list = list.filter(v => v.read);
+  if (search) list = list.filter(v =>
+    (v.text||'').toLowerCase().includes(search) ||
+    (v.ref||'').toLowerCase().includes(search) ||
+    (v.note||'').toLowerCase().includes(search)
+  );
+  renderVersesInto(list, 'listIntro', introTab);
 }
 
 // ===== THEME =====
@@ -1116,7 +1102,7 @@ function toast(msg, icon = '✅') {
 
 // ===== ADD MODAL ROUTER =====
 function openAddModal() {
-  if (activeSection === 'ensenanzas' || activeSection === 'alabanzas') openVerseModal();
+  if (activeSection === 'introducciones') openVerseModal();
   else if (activeSection === 'testimonios') openTestimonyModal();
 }
 
@@ -1133,20 +1119,23 @@ function setFilter(section, value, el) {
 // ===== VERSES =====
 function openVerseModal(id = null) {
   editId.verse = id;
-  const v = id ? db[activeSection].find(x => x.id === id) : null;
+  const section = introTab;
+  const v = id ? db[section].find(x => x.id === id) : null;
   document.getElementById('verseModalTitle').textContent = id ? 'Editar Verso' : 'Nuevo Verso';
   document.getElementById('vText').value = v ? v.text : '';
   document.getElementById('vRef').value  = v ? v.ref  : '';
-  document.getElementById('vNote').value = v ? v.note : '';
+  document.getElementById('vNote').value = v ? (v.note||'') : '';
+  document.getElementById('vTipo').value = v ? section : introTab;
   openModal('verseModal');
 }
 
 function saveVerse() {
   const text = document.getElementById('vText').value.trim();
   const ref  = document.getElementById('vRef').value.trim();
+  const tipo = document.getElementById('vTipo').value;
   if (!text || !ref) { toast('El texto y la referencia son requeridos', '⚠️'); return; }
 
-  const existing = editId.verse ? db[activeSection].find(x => x.id === editId.verse) : null;
+  const existing = editId.verse ? db[tipo].find(x => x.id === editId.verse) : null;
   const verse = {
     id:        existing ? existing.id : genId(),
     text, ref,
@@ -1157,17 +1146,19 @@ function saveVerse() {
   };
 
   if (editId.verse) {
-    const idx = db[activeSection].findIndex(x => x.id === editId.verse);
-    db[activeSection][idx] = verse;
+    const idx = db[tipo].findIndex(x => x.id === editId.verse);
+    db[tipo][idx] = verse;
     toast('Verso actualizado');
   } else {
-    db[activeSection].unshift(verse);
+    db[tipo].unshift(verse);
     toast('Verso guardado');
   }
 
   save();
   closeModal('verseModal');
-  renderVerses(activeSection);
+  introTab = tipo;
+  switchIntroTab(tipo);
+  renderIntroActivo();
 }
 
 function toggleRead(section, id) {
@@ -1187,25 +1178,16 @@ function deleteVerse(section, id) {
   toast('Verso eliminado', '🗑️');
 }
 
-function renderVerses(section) {
-  const search = (document.getElementById('search' + section.charAt(0).toUpperCase() + section.slice(1))?.value || '').toLowerCase();
-  const f = filters[section];
+function renderVerses(section) { renderIntroActivo(); }
 
-  let list = db[section].filter(v => {
-    const ms = !search || v.text.toLowerCase().includes(search) || v.ref.toLowerCase().includes(search) || (v.note||'').toLowerCase().includes(search);
-    const mf = f === 'all' ? true : f === 'read' ? v.read : !v.read;
-    return ms && mf;
-  });
-
-  const el = document.getElementById('list' + section.charAt(0).toUpperCase() + section.slice(1));
+function renderVersesInto(list, containerId, section) {
+  const el = document.getElementById(containerId);
   if (!el) return;
-
   if (list.length === 0) {
     const label = section === 'ensenanzas' ? 'enseñanzas' : 'alabanzas';
-    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📖</div><h3>Sin versos aquí</h3><p>Agrega tu primer verso para introducciones de ${label}.</p></div>`;
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📄</div><h3>Sin versos aquí</h3><p>Agrega tu primer verso para introducciones de ${label}.</p></div>`;
     return;
   }
-
   el.innerHTML = list.map(v => `
     <div class="verse-card ${v.read ? 'read' : 'unread'}">
       <div class="verse-check ${v.read ? 'checked' : ''}" onclick="toggleRead('${section}','${v.id}')" title="${v.read ? 'Marcar como pendiente' : 'Marcar como leído'}">
@@ -1214,7 +1196,7 @@ function renderVerses(section) {
       <div class="verse-content">
         <div class="verse-text">"${v.text}"</div>
         <div class="verse-ref">${v.ref}</div>
-        ${v.note ? `<div class="verse-note">📝 ${v.note}</div>` : ''}
+        ${v.note ? `<div class="verse-note">${v.note}</div>` : ''}
         <div class="verse-meta">
           <span class="tag ${v.read ? 'tag-read' : 'tag-pending'}">${v.read ? '✓ Leído' : '⏳ Pendiente'}</span>
           ${v.readDate ? `<span class="tag-date">Leído: ${fmtDate(v.readDate)}</span>` : ''}
@@ -1350,12 +1332,11 @@ async function init() {
     document.getElementById('themeLabel').textContent = 'Modo claro';
   }
   await load();
-  // En móvil arrancar directo en Enseñanzas
   if (window.innerWidth <= 768) {
-    navigate('ensenanzas', null);
-    setBottomNav('ensenanzas');
+    navigate('introducciones', null);
+    setBottomNav('introducciones');
   } else {
-    toggleIntroMenu();
+    navigate('introducciones', null);
   }
 }
 
@@ -1364,6 +1345,10 @@ init();
 // Exponer funciones al scope global (necesario para onclick con type="module")
 window.navigate        = navigate;
 window.toggleIntroMenu = toggleIntroMenu;
+window.switchIntroTab  = switchIntroTab;
+window.setIntroFilter  = setIntroFilter;
+window.renderIntroActivo = renderIntroActivo;
+window.renderVersesInto  = renderVersesInto;
 window.toggleTheme     = toggleTheme;
 window.closeSidebar    = closeSidebar;
 window.toggleSidebar   = toggleSidebar;

@@ -1359,6 +1359,26 @@ async function init() {
 }
 
 init();
+
+// Exponer funciones al scope global (necesario para onclick con type="module")
+window.navigate        = navigate;
+window.toggleIntroMenu = toggleIntroMenu;
+window.toggleTheme     = toggleTheme;
+window.closeSidebar    = closeSidebar;
+window.toggleSidebar   = toggleSidebar;
+window.openAddModal    = openAddModal;
+window.setBottomNav    = setBottomNav;
+window.openVerseModal      = openVerseModal;
+window.deleteVerse         = deleteVerse;
+window.toggleRead          = toggleRead;
+window.openTestimonyModal  = openTestimonyModal;
+window.deleteTestimony     = deleteTestimony;
+window.toggleShared        = toggleShared;
+window.saveVerse           = saveVerse;
+window.saveTestimony       = saveTestimony;
+window.closeModal          = closeModal;
+window.filterVerses        = filterVerses;
+window.filterTestimonios   = filterTestimonios;
 </script>
 </body>
 </html>

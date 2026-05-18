@@ -906,20 +906,47 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<script>
+<script type="module">
+// ===== FIREBASE =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBbvgPJQwGBHzuMibtEr_rVMfPqLGCS1I0",
+  authDomain: "introducciones-david.firebaseapp.com",
+  projectId: "introducciones-david",
+  storageBucket: "introducciones-david.firebasestorage.app",
+  messagingSenderId: "338416946853",
+  appId: "1:338416946853:web:ed16c1e490e40004bac74c",
+  measurementId: "G-KJLS1JBBN3"
+};
+
+const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+const DB_DOC = doc(firestore, 'ministerio', 'datos');
+
 // ===== DATA =====
 let db = { ensenanzas: [], alabanzas: [], testimonios: [] };
 let editId = { verse: null, testimony: null };
 let activeSection = 'welcome';
 let filters = { ensenanzas: 'all', alabanzas: 'all', testimonios: 'all' };
 
-function load() {
-  const s = localStorage.getItem('espiritual_v2');
-  if (s) db = JSON.parse(s);
+async function load() {
+  try {
+    const snap = await getDoc(DB_DOC);
+    if (snap.exists()) db = snap.data();
+  } catch(e) {
+    const s = localStorage.getItem('espiritual_v2');
+    if (s) db = JSON.parse(s);
+  }
 }
 
-function save() {
-  localStorage.setItem('espiritual_v2', JSON.stringify(db));
+async function save() {
+  try {
+    await setDoc(DB_DOC, db);
+  } catch(e) {
+    localStorage.setItem('espiritual_v2', JSON.stringify(db));
+  }
 }
 
 function genId() {
@@ -1236,14 +1263,14 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // ===== INIT =====
-function init() {
+async function init() {
   const t = localStorage.getItem('theme');
   if (t === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
     document.getElementById('themeIcon').textContent  = '☀️';
     document.getElementById('themeLabel').textContent = 'Modo claro';
   }
-  load();
+  await load();
   // Abrir submenú de Introducciones por defecto
   toggleIntroMenu();
 }

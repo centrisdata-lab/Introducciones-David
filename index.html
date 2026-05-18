@@ -897,7 +897,7 @@
       <input class="form-control" type="text" id="vRef" placeholder="Ej: Juan 3:16">
     </div>
     <div class="form-group">
-      <label class="form-label">Fecha en que se contó</label>
+      <label class="form-label">Fecha en que se leyó</label>
       <input class="form-control" type="date" id="vReadDate">
     </div>
     <div class="modal-actions">
@@ -1242,7 +1242,7 @@ function saveTestimony() {
     toast('Testimonio actualizado');
   } else {
     db.testimonios.unshift(t);
-    toast('Testimonio guardado 🕊️');
+    toast('Testimonio guardado');
   }
 
   save();
@@ -1281,7 +1281,7 @@ function renderTestimonios() {
   if (!el) return;
 
   if (list.length === 0) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🕊️</div><h3>Sin testimonios</h3><p>Agrega tu primer testimonio para recordarlo cuando lo necesites.</p></div>`;
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📄</div><h3>Sin testimonios</h3><p>Agrega tu primer testimonio para recordarlo cuando lo necesites.</p></div>`;
     return;
   }
 

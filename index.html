@@ -893,16 +893,12 @@
       </select>
     </div>
     <div class="form-group">
-      <label class="form-label">Texto del verso *</label>
-      <textarea class="form-control" id="vText" placeholder="Escribe el verso bíblico..." rows="3"></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Referencia bíblica *</label>
+      <label class="form-label">Capítulo y versículo *</label>
       <input class="form-control" type="text" id="vRef" placeholder="Ej: Juan 3:16">
     </div>
     <div class="form-group">
-      <label class="form-label">Nota o tema relacionado</label>
-      <textarea class="form-control" id="vNote" placeholder="Contexto, tema o notas personales..." rows="2"></textarea>
+      <label class="form-label">Fecha en que se contó</label>
+      <input class="form-control" type="date" id="vReadDate">
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('verseModal')">Cancelar</button>
@@ -1119,39 +1115,37 @@ function setFilter(section, value, el) {
 // ===== VERSES =====
 function openVerseModal(id = null) {
   editId.verse = id;
-  const section = introTab;
+  const section = id ? (db.ensenanzas.find(x => x.id === id) ? 'ensenanzas' : 'alabanzas') : introTab;
   const v = id ? db[section].find(x => x.id === id) : null;
-  document.getElementById('verseModalTitle').textContent = id ? 'Editar Verso' : 'Nuevo Verso';
-  document.getElementById('vText').value = v ? v.text : '';
-  document.getElementById('vRef').value  = v ? v.ref  : '';
-  document.getElementById('vNote').value = v ? (v.note||'') : '';
-  document.getElementById('vTipo').value = v ? section : introTab;
+  document.getElementById('verseModalTitle').textContent = id ? 'Editar' : 'Nueva Introducción';
+  document.getElementById('vRef').value      = v ? v.ref : '';
+  document.getElementById('vReadDate').value = v ? (v.readDate || '') : '';
+  document.getElementById('vTipo').value     = section;
   openModal('verseModal');
 }
 
 function saveVerse() {
-  const text = document.getElementById('vText').value.trim();
-  const ref  = document.getElementById('vRef').value.trim();
-  const tipo = document.getElementById('vTipo').value;
-  if (!text || !ref) { toast('El texto y la referencia son requeridos', '⚠️'); return; }
+  const ref      = document.getElementById('vRef').value.trim();
+  const tipo     = document.getElementById('vTipo').value;
+  const readDate = document.getElementById('vReadDate').value;
+  if (!ref) { toast('El capítulo y versículo son requeridos', '⚠️'); return; }
 
   const existing = editId.verse ? db[tipo].find(x => x.id === editId.verse) : null;
   const verse = {
     id:        existing ? existing.id : genId(),
-    text, ref,
-    note:      document.getElementById('vNote').value.trim(),
-    read:      existing ? existing.read : false,
-    readDate:  existing ? existing.readDate : null,
+    ref,
+    read:      !!readDate,
+    readDate:  readDate || null,
     createdAt: existing ? existing.createdAt : today()
   };
 
   if (editId.verse) {
     const idx = db[tipo].findIndex(x => x.id === editId.verse);
     db[tipo][idx] = verse;
-    toast('Verso actualizado');
+    toast('Introducción actualizada');
   } else {
     db[tipo].unshift(verse);
-    toast('Verso guardado');
+    toast('Introducción guardada');
   }
 
   save();
@@ -1162,12 +1156,7 @@ function saveVerse() {
 }
 
 function toggleRead(section, id) {
-  const v = db[section].find(x => x.id === id);
-  v.read = !v.read;
-  v.readDate = v.read ? today() : null;
-  save();
-  renderVerses(section);
-  toast(v.read ? 'Marcado como leído' : 'Marcado como pendiente', v.read ? '📖' : '⏳');
+  // ya no se usa — la fecha se registra en el modal
 }
 
 function deleteVerse(section, id) {
@@ -1190,16 +1179,11 @@ function renderVersesInto(list, containerId, section) {
   }
   el.innerHTML = list.map(v => `
     <div class="verse-card ${v.read ? 'read' : 'unread'}">
-      <div class="verse-check ${v.read ? 'checked' : ''}" onclick="toggleRead('${section}','${v.id}')" title="${v.read ? 'Marcar como pendiente' : 'Marcar como leído'}">
-        ${v.read ? '✓' : ''}
-      </div>
       <div class="verse-content">
-        <div class="verse-text">"${v.text}"</div>
-        <div class="verse-ref">${v.ref}</div>
-        ${v.note ? `<div class="verse-note">${v.note}</div>` : ''}
+        <div class="verse-ref" style="font-size:16px;font-weight:600">${v.ref}</div>
         <div class="verse-meta">
-          <span class="tag ${v.read ? 'tag-read' : 'tag-pending'}">${v.read ? '✓ Leído' : '⏳ Pendiente'}</span>
-          ${v.readDate ? `<span class="tag-date">Leído: ${fmtDate(v.readDate)}</span>` : ''}
+          <span class="tag ${v.read ? 'tag-read' : 'tag-pending'}">${v.read ? '✓ Contado' : '⏳ Pendiente'}</span>
+          ${v.readDate ? `<span class="tag-date">Contado: ${fmtDate(v.readDate)}</span>` : ''}
         </div>
       </div>
       <div class="verse-actions">

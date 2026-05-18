@@ -1156,7 +1156,12 @@ function saveVerse() {
 }
 
 function toggleRead(section, id) {
-  // ya no se usa — la fecha se registra en el modal
+  const v = db[section].find(x => x.id === id);
+  v.read = !v.read;
+  v.readDate = v.read ? today() : null;
+  save();
+  renderIntroActivo();
+  toast(v.read ? 'Marcado como contado' : 'Marcado como pendiente', v.read ? '✓' : '⏳');
 }
 
 function deleteVerse(section, id) {
@@ -1179,6 +1184,9 @@ function renderVersesInto(list, containerId, section) {
   }
   el.innerHTML = list.map(v => `
     <div class="verse-card ${v.read ? 'read' : 'unread'}">
+      <div class="verse-check ${v.read ? 'checked' : ''}" onclick="toggleRead('${section}','${v.id}')" title="${v.read ? 'Marcar como pendiente' : 'Marcar como contado hoy'}">
+        ${v.read ? '✓' : ''}
+      </div>
       <div class="verse-content">
         <div class="verse-ref" style="font-size:16px;font-weight:600">${v.ref}</div>
         <div class="verse-meta">
